@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xjwang.firstspringboot.mapper.studentMapper">
+    <resultMap id="student" type="com.xjwang.firstspringboot.pojo.student"/>
+    <parameterMap id="student" type="com.xjwang.firstspringboot.pojo.student"/>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultMap="student">
+        select * from student
+    </select>
+    <insert id="addStudent" parameterType="student">
+        insert student(id,name,age,gender,birthday)
+        values(#{id},#{name},#{age},#{gender},#{birthday})
+    </insert>
+    <update id="editStudent" parameterType="student">
+        update student
+        <set>
+            <if test="gender != null">gender = #{gender}, </if>
+            <if test="age !=null ">age = #{age}, </if>
+            <if test="name != null">name = #{name} </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="delateStudent" parameterType="java.lang.Long">
+        delete from student where id = #{id}
+    </delete>
+    <select id="findTotalSize" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from student
+    where gender like concat('%',#{gender},'%')
+    </select>
+</mapper>
